@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL;
-
 function App() {
   const [url, setUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
@@ -11,7 +9,7 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${API_URL}/api/shorten`, {
+      const res = await axios.post('https://url-shortner22.onrender.com/api/shorten', {
         fullUrl: url,
       });
       setShortUrl(res.data.shortUrl);
