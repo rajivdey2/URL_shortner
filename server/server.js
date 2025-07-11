@@ -6,13 +6,24 @@ const shortId = require('shortid');
 
 const app = express();
 
-// CORS Configuration
-const corsOptions = {
-  origin: '*',
+// Improved CORS Configuration
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://url-shortner2-88wp.vercel.app' // REPLACE WITH YOUR ACTUAL FRONTEND URL
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
-};
-app.use(cors(corsOptions));
+}));
 
 app.use(express.json());
 
@@ -32,17 +43,14 @@ const urlSchema = new mongoose.Schema({
 });
 const Url = mongoose.model('Url', urlSchema);
 
-// ✅ Root Route for Render Health Page
-app.get('/', (req, res) => {
-  res.send('🚀 URL Shortener Backend is Live');
-});
-
 // Create short URL endpoint
 app.post('/api/shorten', async (req, res) => {
   const { fullUrl } = req.body;
   
-  // Simple URL validation
-  if (!fullUrl.startsWith('http://') && !fullUrl.startsWith('https://')) {
+  // Enhanced URL validation
+  try {
+    new URL(fullUrl);
+  } catch (err) {
     return res.status(400).json({ error: 'Invalid URL format' });
   }
 
@@ -62,7 +70,7 @@ app.post('/api/shorten', async (req, res) => {
     });
   } catch (error) {
     console.error('Shorten error:', error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Database error' });
   }
 });
 
@@ -72,6 +80,7 @@ app.get('/:shortUrl', async (req, res) => {
     const url = await Url.findOne({ shortUrl: req.params.shortUrl });
     if (!url) return res.status(404).send('URL not found');
     
+    // Update click counter (optional)
     res.redirect(url.fullUrl);
   } catch (error) {
     console.error('Redirect error:', error);
@@ -81,7 +90,10 @@ app.get('/:shortUrl', async (req, res) => {
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.status(200).send('OK');
+  res.status(200).json({ 
+    status: 'OK', 
+    database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'
+  });
 });
 
 const PORT = process.env.PORT || 5000;
