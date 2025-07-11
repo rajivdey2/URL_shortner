@@ -32,6 +32,11 @@ const urlSchema = new mongoose.Schema({
 });
 const Url = mongoose.model('Url', urlSchema);
 
+// ✅ Root Route for Render Health Page
+app.get('/', (req, res) => {
+  res.send('🚀 URL Shortener Backend is Live');
+});
+
 // Create short URL endpoint
 app.post('/api/shorten', async (req, res) => {
   const { fullUrl } = req.body;
