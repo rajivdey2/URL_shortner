@@ -9,7 +9,9 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/shorten', { fullUrl: url });
+      const res = await axios.post('https://url-shortner22.onrender.com/api/shorten', {
+        fullUrl: url,
+      });
       setShortUrl(res.data.shortUrl);
       setError('');
     } catch {
@@ -30,44 +32,46 @@ function App() {
           required
           style={{ flex: 1, padding: '10px', fontSize: '16px' }}
         />
-        <button 
-          type="submit" 
-          style={{ 
-            padding: '10px 20px', 
-            marginLeft: '10px', 
-            background: '#007bff', 
-            color: 'white', 
+        <button
+          type="submit"
+          style={{
+            padding: '10px 20px',
+            marginLeft: '10px',
+            background: '#007bff',
+            color: 'white',
             border: 'none',
-            cursor: 'pointer'
+            cursor: 'pointer',
           }}
         >
           Shorten
         </button>
       </form>
-      
+
       {shortUrl && (
-        <div style={{ 
-          padding: '15px', 
-          background: '#f8f9fa', 
-          borderRadius: '5px',
-          textAlign: 'center'
-        }}>
+        <div
+          style={{
+            padding: '15px',
+            background: '#f8f9fa',
+            borderRadius: '5px',
+            textAlign: 'center',
+          }}
+        >
           <p>Short URL:</p>
-          <a 
-            href={shortUrl} 
-            target="_blank" 
+          <a
+            href={shortUrl}
+            target="_blank"
             rel="noopener noreferrer"
-            style={{ 
-              fontSize: '18px', 
+            style={{
+              fontSize: '18px',
               wordBreak: 'break-all',
-              color: '#007bff'
+              color: '#007bff',
             }}
           >
             {shortUrl}
           </a>
         </div>
       )}
-      
+
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
     </div>
   );
