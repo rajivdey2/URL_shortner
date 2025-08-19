@@ -46,19 +46,24 @@ app.post('/api/shorten', async (req, res) => {
     return res.status(400).json({ error: 'Invalid URL format' });
   }
 
+  // ✅ Clean BASE_URL (removes "BASE URL :" and spaces if present)
+  const cleanBaseUrl = process.env.BASE_URL
+    .replace(/.*(https?:\/\/)/, '$1')  // keep only http/https part
+    .replace(/\s+/g, '');              // remove spaces
+
   try {
     const existingUrl = await Url.findOne({ fullUrl });
     if (existingUrl) {
       return res.json({
         fullUrl: existingUrl.fullUrl,
-        shortUrl: `${process.env.BASE_URL}/${existingUrl.shortUrl}`
+        shortUrl: `${cleanBaseUrl}/${existingUrl.shortUrl}`
       });
     }
 
     const newUrl = await Url.create({ fullUrl });
     res.json({
       fullUrl: newUrl.fullUrl,
-      shortUrl: `${process.env.BASE_URL}/${newUrl.shortUrl}`
+      shortUrl: `${cleanBaseUrl}/${newUrl.shortUrl}`
     });
   } catch (error) {
     console.error('Shorten error:', error);
