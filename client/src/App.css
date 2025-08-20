@@ -1,25 +1,109 @@
 :root {
-  --primary: #6c5ce7;   /* pastel purple */
-  --secondary: #00cec9; /* mint teal */
-  --accent: #fab1a0;    /* peachy pink */
-  --bg: #fdfcfb;        /* off-white */
-  --text: #2d3436;      /* dark gray */
-  --card: #ffffff;      /* pure white */
+  --primary: #e10600;   /* Ferrari red */
+  --secondary: #121212; /* Black (checkered flag) */
+  --accent: #ffcc00;    /* Racing yellow */
+  --bg: #f5f5f5;        /* Asphalt light gray */
+  --text: #1e1e1e;
+  --card: #ffffff;
   --error: #d63031;
-}
 
-[data-theme="dark"] {
-  --primary: #a29bfe;
-  --secondary: #55efc4;
-  --accent: #ff7675;
-  --bg: #2d3436;
-  --text: #dfe6e9;
-  --card: #3a3a3a;
-  --error: #ff6b6b;
+  font-family: 'Orbitron', 'Poppins', sans-serif; /* Futuristic racing font */
 }
 
 body {
-  font-family: 'Poppins', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #f5f5f5 0%, #eaeaea 100%);
+}
+
+/* Title */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.2rem;
+  color: var(--primary);
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Card - race car dashboard style */
+.card {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 2rem;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  border: 3px solid var(--secondary);
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0,0,0,0.03) 0px,
+    rgba(0,0,0,0.03) 4px,
+    transparent 4px,
+    transparent 8px
+  ); /* subtle carbon fiber */
+}
+
+/* Input */
+input {
+  flex: 1;
+  border: 2px solid var(--secondary);
+  border-radius: 8px;
+  padding: 0.8rem;
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
+input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
+  outline: none;
+}
+
+/* Button - racing red */
+button {
+  border-radius: 8px;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+button:hover {
+  background: var(--accent);
+  color: var(--secondary);
+  transform: translateY(-2px);
+}
+button:active {
+  transform: translateY(0);
+}
+
+/* Links */
+a {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  word-break: break-word;
+}
+a:hover {
+  color: var(--accent);
+}
+
+/* Error */
+.error {
+  color: var(--error);
+  margin-top: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
 }
