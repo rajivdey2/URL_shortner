@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './index.css';
+import './App.css';
 
 function App() {
   const [url, setUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
   const [error, setError] = useState('');
+  const [theme, setTheme] = useState('light');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +21,12 @@ function App() {
       setError('Failed to shorten URL');
       setShortUrl('');
     }
+  };
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute("data-theme", newTheme);
+    setTheme(newTheme);
   };
 
   return (
@@ -45,6 +53,10 @@ function App() {
       )}
 
       {error && <p className="error">{error}</p>}
+
+      <button onClick={toggleTheme} style={{ marginTop: '1rem' }}>
+        Switch to {theme === 'light' ? 'Dark' : 'Light'} Mode
+      </button>
     </div>
   );
 }
