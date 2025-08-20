@@ -23,21 +23,21 @@ function App() {
 
   return (
     <div className="card">
-      <h1>✨ URL Shortener</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+      <h1>🔗 URL Shortener</h1>
+      <form onSubmit={handleSubmit}>
         <input
           type="url"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="https://example.com/long-url"
+          placeholder="https://example.com/long-link"
           required
         />
         <button type="submit">Shorten</button>
       </form>
 
       {shortUrl && (
-        <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-          <p>Short URL:</p>
+        <div>
+          <p>✨ Your Short URL:</p>
           <a href={shortUrl} target="_blank" rel="noopener noreferrer">
             {shortUrl}
           </a>
